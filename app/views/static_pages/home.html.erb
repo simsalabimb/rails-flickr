@@ -1,2 +1,19 @@
-<h1>StaticPages#home</h1>
-<p>Find me in app/views/static_pages/home.html.erb</p>
+<h1>Flickr Image Pulling</h1>
+ 
+<h3><%= link_to "HOME", root_path %></h3>
+
+<h4>Please enter a flickr id</h4>
+
+<%= form_tag({controller: "static_pages", action: "home"}, method: "get") do %>
+  <%= text_field_tag :flickr_id %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+<% if params[:flickr_id] %>
+<h1>User ID: <%=@flickr_id%></h1>
+  <% @photos.each do |p| %>
+    <% info = flickr.photos.getInfo(photo_id: p.id) %>
+    <%= link_to(image_tag(FlickRaw.url(info))) %><br>
+  
+  <% end %>
+<% end %>
